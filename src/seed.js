@@ -1,10 +1,9 @@
 /**
  * Carga inicial de datos.
  *
- *   npm run seed            → vacía las colecciones y las rellena
- *   npm run seed -- --keep  → sólo añade lo que falte, sin borrar nada
+ *   npm run seed            
+ *   npm run seed -- --keep  
  *
- * NO ejecute el borrado sobre una base de producción con datos reales.
  */
 require('dotenv').config({ quiet: true });
 
