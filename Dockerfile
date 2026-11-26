@@ -1,6 +1,4 @@
-# Imagen para desplegar en cualquier proveedor que acepte contenedores
-# (Railway, Fly.io, Google Cloud Run, Azure, un VPS propio…).
-#
+
 #   docker build -t differents .
 #   docker run -p 3000:3000 --env-file .env differents
 
