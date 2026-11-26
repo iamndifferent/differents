@@ -1,0 +1,39 @@
+{
+  "name": "differents-platform",
+  "version": "2.0.0",
+  "description": "Differents — Sastrería a medida. API Node/Express sobre MongoDB y sitio editorial de 6 capítulos.",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node src/seed.js",
+    "test:api": "node test/smoke.test.js",
+    "test:offline": "node test/offline.test.js"
+  },
+  "keywords": [
+    "sastreria",
+    "ecommerce",
+    "tickets",
+    "mongodb",
+    "express"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.0",
+    "express-rate-limit": "^8.3.0",
+    "express-validator": "^7.3.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.21.0",
+    "xss": "^1.0.15"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^10.2.3"
+  }
+}

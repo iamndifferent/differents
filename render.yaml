@@ -1,0 +1,41 @@
+# Despliegue en Render — https://render.com
+#
+# Con este archivo en la raíz del repositorio, en Render basta con
+# "New → Blueprint" y elegir el repo: lee esta configuración sola.
+#
+# Sólo tendrá que rellenar a mano MONGODB_URI y CORS_ORIGIN, porque
+# llevan datos suyos (JWT_SECRET lo genera Render automáticamente).
+
+services:
+  - type: web
+    name: differents
+    runtime: node
+    plan: free
+    region: frankfurt          # el más cercano a España
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      # Render genera una clave aleatoria segura al crear el servicio.
+      - key: JWT_SECRET
+        generateValue: true
+
+      - key: JWT_EXPIRES_IN
+        value: 8h
+
+      - key: BCRYPT_SALT_ROUNDS
+        value: "12"
+
+      # sync: false significa que Render la pedirá al desplegar.
+      # Pegue aquí la cadena de conexión de MongoDB Atlas.
+      - key: MONGODB_URI
+        sync: false
+
+      # Su dominio ya desplegado, por ejemplo:
+      #   https://differents.onrender.com
+      - key: CORS_ORIGIN
+        sync: false
