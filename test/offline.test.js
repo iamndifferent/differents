@@ -12,7 +12,7 @@
  */
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'clave_de_pruebas_offline_0123456789abcdef';
 process.env.NODE_ENV = 'development';
-process.env.BCRYPT_SALT_ROUNDS = '4'; // rápido: estas pruebas no miden seguridad real
+process.env.BCRYPT_SALT_ROUNDS = '4'; //  estas pruebas no miden seguridad real
 
 const jwt = require('jsonwebtoken');
 
