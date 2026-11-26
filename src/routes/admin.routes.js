@@ -14,7 +14,7 @@ const router = express.Router();
 // Todo lo que cuelga de /api/admin exige sesión de administrador.
 router.use(autenticado, exigirRol('ADMIN'));
 
-// ── USUARIOS ──────────────────────────────────────────────
+//  USUARIOS 
 
 router.get('/usuarios', asyncHandler(async (req, res) => {
   const usuarios = await Usuario.find().sort({ createdAt: -1 }).limit(300);
@@ -54,7 +54,7 @@ router.get('/agentes', asyncHandler(async (req, res) => {
   res.json({ agentes });
 }));
 
-// ── MÉTRICAS ──────────────────────────────────────────────
+//  MÉTRICAS 
 
 /**
  * GET /api/admin/metricas — datos del panel.
@@ -108,7 +108,7 @@ router.get('/metricas', asyncHandler(async (req, res) => {
   });
 }));
 
-// ── CATÁLOGO ──────────────────────────────────────────────
+// CATÁLOGO 
 
 /** GET /api/admin/trajes — incluye los desactivados */
 router.get('/trajes', asyncHandler(async (req, res) => {
@@ -187,7 +187,7 @@ router.delete('/trajes/:id', validarObjectId(), asyncHandler(async (req, res) =>
   res.json({ mensaje: 'Traje desactivado', traje });
 }));
 
-// ── CITAS ─────────────────────────────────────────────────
+//  CITAS 
 
 router.get('/citas', asyncHandler(async (req, res) => {
   const filtro = req.query.estado ? { estado: req.query.estado } : {};
@@ -204,7 +204,7 @@ router.put('/citas/:id', validarObjectId(), asyncHandler(async (req, res) => {
   return res.json({ mensaje: 'Cita actualizada', cita });
 }));
 
-// ── CATEGORÍAS DE SOPORTE ─────────────────────────────────
+// CATEGORÍAS DE SOPORTE
 
 router.post('/categorias-soporte', [
   body('nombre').trim().isLength({ min: 3, max: 80 }).withMessage('Nombre: 3-80 caracteres'),
