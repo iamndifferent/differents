@@ -41,116 +41,11 @@ API en **Node.js + Express** sobre **MongoDB** (Mongoose).
 - Cuatro roles: visitante, cliente, asesor y administrador
 - Panel de administración con métricas, usuarios, catálogo y citas
 
----
-
-## Arrancar en local
-
-Necesita **Node.js 18 o superior** y una base MongoDB (local o en Atlas).
-
-```bash
-# 1. Instalar dependencias
-npm install
-
-# 2. Crear el archivo de configuración
-cp .env.example .env
-
-# 3. Generar una clave para los tokens y pegarla en .env (JWT_SECRET)
-node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
-
-# 4. Cargar los datos de ejemplo
-npm run seed
-
-# 5. Arrancar
-npm start
-```
-
-Abra `http://localhost:3000`.
-
-### Credenciales de ejemplo
-
-| Rol | Correo | Contraseña |
-| --- | --- | --- |
-| Administrador | `admin@differents.com` | `Admin2026!` |
-| Asesor | `sastre@differents.com` | `Agente2026!` |
-| Asesor | `soporte@differents.com` | `Agente2026!` |
-| Cliente | `juan@correo.com` | `Cliente2026!` |
-| Cliente | `pedro@correo.com` | `Cliente2026!` |
-
-> Son sólo para desarrollo. Bórrelas o cámbielas antes de publicar.
-
-### Comandos disponibles
-
-| Comando | Qué hace |
-| --- | --- |
-| `npm start` | Arranca el servidor |
-| `npm run dev` | Arranca y reinicia al guardar cambios |
-| `npm run seed` | Vacía las colecciones y carga los datos de ejemplo |
-| `npm run seed -- --keep` | Añade lo que falte sin borrar nada |
-| `npm run test:offline` | 56 pruebas que no necesitan base de datos |
-| `npm run test:api` | Pruebas completas de extremo a extremo |
-
----
 
 ## Base de datos: MongoDB Atlas
 
-Atlas es el MongoDB en la nube de la propia empresa. Tiene un plan gratuito
-(M0) suficiente para este proyecto.
+Atlas es el MongoDB en la nube de la propia empresa. 
 
-1. Cree una cuenta en <https://www.mongodb.com/cloud/atlas/register>.
-2. **Build a Database → M0 (Free)**. Elija la región más cercana.
-3. **Database Access → Add New Database User**. Anote usuario y contraseña.
-   Si la contraseña lleva símbolos como `@`, `#` o `/`, tendrá que
-   codificarlos en la URL (por ejemplo `@` se escribe `%40`).
-4. **Network Access → Add IP Address**.
-   - Para probar desde su ordenador: *Add Current IP Address*.
-   - Para que funcione desde Render: `0.0.0.0/0` (permite cualquier origen;
-     la base sigue protegida por usuario y contraseña).
-5. **Database → Connect → Drivers** y copie la cadena. Tendrá esta forma:
-
-```
-mongodb+srv://USUARIO:CONTRASENA@cluster0.xxxxx.mongodb.net/differents?retryWrites=true&w=majority
-```
-
-6. Péguela en `MONGODB_URI` dentro de su `.env`.
-
-> Escriba `differents` como nombre de base justo antes del `?`. Si lo omite,
-> Mongoose usará `test`.
-
-### Ver los datos
-
-- **MongoDB Compass** (aplicación de escritorio, gratuita): pegue la misma
-  cadena de conexión y verá las colecciones con su contenido.
-- **Atlas → Browse Collections**: lo mismo desde el navegador.
-
-Colecciones que crea el proyecto: `usuarios`, `trajes`, `pedidos`, `tickets`,
-`citas`, `categoriasoportes` y `contadors`.
-
----
-
-## Probar con Postman
-
-En la carpeta `postman/` hay dos archivos listos para importar.
-
-### Importar
-
-1. Abra Postman → **Import** → arrastre los dos archivos:
-   - `Differents.postman_collection.json` (50 peticiones en 8 carpetas)
-   - `Differents.postman_environment.json` (las variables)
-2. Arriba a la derecha, seleccione el entorno **Differents — Local**.
-3. Si su servidor no está en `localhost:3000`, cambie la variable `baseUrl`.
-
-### Usar
-
-La colección se encarga del token sola: al ejecutar los *login* de la carpeta
-**01 · Autenticación**, guarda cada token en su variable. A partir de ahí, el
-resto de carpetas ya funcionan sin que toque nada.
-
-Lo mismo ocurre con los identificadores: al listar trajes guarda `trajeId`, al
-crear un pedido guarda `pedidoId`, al abrir una incidencia guarda `ticketId`.
-
-**Para ejecutarlo todo de golpe:** botón derecho sobre la colección →
-**Run collection** → *Run*. Verá las 50 peticiones con sus comprobaciones.
-Ejecútelas en el orden en que están, porque unas dependen de otras.
 
 ### Carpetas
 
@@ -170,71 +65,10 @@ un cliente **no** puede leer la incidencia de otro aunque conozca su
 identificador, que un cliente no entra en el panel de administración y que el
 rol enviado en el registro se ignora.
 
-### Regenerar la colección
 
-Si añade rutas a la API:
+## Publicado en internet
+https://differents.onrender.com
 
-```bash
-node postman/generar-coleccion.js
-```
-
----
-
-## Publicar en internet
-
-El proyecto sirve la web y la API desde el mismo servidor, así que con un solo
-despliegue tiene las dos cosas.
-
-### Opción A — Render (recomendada, tiene plan gratuito)
-
-1. Suba el proyecto a un repositorio de GitHub.
-2. Entre en <https://dashboard.render.com> → **New → Blueprint**.
-3. Elija su repositorio. Render leerá `render.yaml` automáticamente.
-4. Le pedirá dos valores:
-   - `MONGODB_URI`: la cadena de Atlas.
-   - `CORS_ORIGIN`: la URL que le asigne Render, por ejemplo
-     `https://differents.onrender.com`.
-   `JWT_SECRET` lo genera Render solo.
-5. **Apply**. En unos minutos tendrá la web publicada.
-6. Cargue los datos de ejemplo una vez: pestaña **Shell** del servicio →
-   `npm run seed`.
-
-> El plan gratuito de Render duerme el servicio tras 15 minutos sin visitas.
-> La primera petición después tarda unos 30 segundos. Para una presentación,
-> ábrala un minuto antes.
-
-### Opción B — Railway
-
-1. <https://railway.app> → **New Project → Deploy from GitHub repo**.
-2. En **Variables**, añada `MONGODB_URI`, `JWT_SECRET` y `CORS_ORIGIN`.
-3. En **Settings → Networking**, pulse *Generate Domain*.
-
-### Opción C — Docker
-
-Para un VPS o cualquier proveedor de contenedores:
-
-```bash
-docker build -t differents .
-docker run -p 3000:3000 --env-file .env differents
-```
-
-### Lista de comprobación antes de publicar
-
-- [ ] `JWT_SECRET` es una clave aleatoria larga, no la del ejemplo
-- [ ] `NODE_ENV=production`
-- [ ] `CORS_ORIGIN` es su dominio, no `*`
-- [ ] En Atlas, *Network Access* permite la IP del servidor
-- [ ] El archivo `.env` **no** está subido al repositorio
-- [ ] Ha cambiado las contraseñas de ejemplo
-
-El servidor se niega a arrancar en producción si `JWT_SECRET` sigue teniendo
-el valor de ejemplo.
-
----
-
-## Rutas de la API
-
-Todas cuelgan de `/api`. La columna «Acceso» indica quién puede llamarlas.
 
 ### Públicas
 
@@ -275,20 +109,6 @@ Todas exigen rol `ADMIN`.
 | GET | `/admin/citas` · PUT `/admin/citas/:id` |
 | POST | `/admin/categorias-soporte` |
 
-### Códigos de respuesta
-
-| Código | Significado |
-| --- | --- |
-| 200 / 201 | Correcto |
-| 400 | Datos mal enviados |
-| 401 | Falta el token o ha caducado |
-| 403 | Sin permiso para ese recurso |
-| 404 | No existe |
-| 409 | Conflicto: duplicado o transición no permitida |
-| 413 | Contenido demasiado grande |
-| 429 | Demasiadas peticiones |
-
----
 
 ## Cómo funcionan las incidencias
 
@@ -403,14 +223,7 @@ de `src/server.js`.
 
 ---
 
-## Antes de enseñarlo
 
-Hay textos de ejemplo en la web que debería revisar o sustituir:
-
-- La cifra «+2.400 caballeros vestidos» del Capítulo I
-- Los precios de los tres niveles (690 €, 1.290 €, 2.400 €)
-- Las ciudades de los ateliers y los plazos de entrega
-- Los nombres y precios de los ocho trajes del catálogo
 
 Las fotografías de los capítulos IV y V son marcadores a la espera de la
 sesión fotográfica. Para sustituirlas, deje los archivos en `public/img/` y
