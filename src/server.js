@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 3000;
 // limitador de peticiones vería siempre la misma IP y contaría mal.
 app.set('trust proxy', 1);
 
-// ── Seguridad ─────────────────────────────────────────────
+// Seguridad 
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -60,10 +60,10 @@ app.use('/api', rateLimit({
   message: { error: 'Demasiadas peticiones. Intente de nuevo en 15 minutos.' },
 }));
 
-// ── Archivos del sitio ────────────────────────────────────
+// Archivos del sitio 
 app.use(express.static(path.join(__dirname, '..', 'public'), { maxAge: '1h' }));
 
-// ── Comprobación de estado (la usa Render para el health check) ──
+// Comprobación de estado (la usa Render para el health check) 
 app.get('/api/health', (req, res) => {
   const estados = ['desconectado', 'conectado', 'conectando', 'desconectando'];
   res.json({
@@ -74,7 +74,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ── Rutas de la API ───────────────────────────────────────
+// Rutas de la API 
 app.use('/api/auth', authRoutes);
 app.use('/api/trajes', trajesRoutes);
 app.use('/api/pedidos', pedidosRoutes);
@@ -83,13 +83,13 @@ app.use('/api/citas', citasRoutes);
 app.use('/api/categorias-soporte', categoriasRoutes);
 app.use('/api/admin', adminRoutes);
 
-// ── 404 de la API ─────────────────────────────────────────
+// 404 de la API
 app.use('/api', (req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
 
-// ── El resto devuelve la página (aplicación de una sola página) ──
+// El resto devuelve la página (aplicación de una sola página) 
 app.use((req, res) => res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
 
-// ── Manejador de errores ──────────────────────────────────
+//  Manejador de errores 
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   // Cuerpo de petición demasiado grande.
   if (err.type === 'entity.too.large' || err.status === 413) {
@@ -115,21 +115,21 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   return res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-// ── Arranque ──────────────────────────────────────────────
+//Arranque 
 async function arrancar() {
   if (!process.env.JWT_SECRET) {
-    console.error('✗ Falta JWT_SECRET. Copie .env.example a .env y rellénelo.');
+    console.error(' Falta JWT_SECRET. Copie .env.example a .env y rellénelo.');
     process.exit(1);
   }
-  if (process.env.NODE_ENV === 'production' && process.env.JWT_SECRET.includes('cambie_esta_clave')) {
-    console.error('✗ JWT_SECRET sigue con el valor de ejemplo. Cámbielo antes de publicar.');
+  if (process.env.NODE_ENV === 'production' && process.env.JWT_SECRET.includes('cambiar_clave')) {
+    console.error(' JWT_SECRET, cambiarlo');
     process.exit(1);
   }
 
   try {
     await conectarDB();
   } catch (err) {
-    console.error('✗ No se pudo conectar con MongoDB:', err.message);
+    console.error(' No se pudo conectar con MongoDB:', err.message);
     process.exit(1);
   }
 
