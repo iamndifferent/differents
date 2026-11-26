@@ -1,10 +1,9 @@
-# Despliegue en Render — https://render.com
+# Desarrollo del Despliegue en Render — https://render.com
 #
 # Con este archivo en la raíz del repositorio, en Render basta con
-# "New → Blueprint" y elegir el repo: lee esta configuración sola.
+# "New == Blueprint" y elegir el repo: lee esta configuración sola.
 #
-# Sólo tendrá que rellenar a mano MONGODB_URI y CORS_ORIGIN, porque
-# llevan datos suyos (JWT_SECRET lo genera Render automáticamente).
+# Sólo tendrá que rellenar a mano MONGODB_URI y CORS_ORIGIN (JWT_SECRET lo genera Render automáticamente).
 
 services:
   - type: web
@@ -31,11 +30,10 @@ services:
         value: "12"
 
       # sync: false significa que Render la pedirá al desplegar.
-      # Pegue aquí la cadena de conexión de MongoDB Atlas.
       - key: MONGODB_URI
         sync: false
 
-      # Su dominio ya desplegado, por ejemplo:
+      # Dominio desplegado.
       #   https://differents.onrender.com
       - key: CORS_ORIGIN
         sync: false
