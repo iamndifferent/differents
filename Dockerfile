@@ -11,7 +11,7 @@ WORKDIR /app
 # Las dependencias primero: así Docker reaprovecha la caché mientras
 # sólo cambie el código y no el package.json.
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev --no-audit --no-fund
 
 COPY src ./src
 COPY public ./public

@@ -30,7 +30,7 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       // El frontend es una sola página con estilos y script en línea, de ahí
       // 'unsafe-inline'. Si separa el CSS y el JS en archivos, quítelo.
-      scriptSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrcAttr: ["'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
       imgSrc: ["'self'", 'data:', 'https:'],
