@@ -9,15 +9,12 @@ API en **Node.js + Express** sobre **MongoDB** (Mongoose).
 ## Índice
 
 1. [Qué incluye](#qué-incluye)
-2. [Arrancar en local](#arrancar-en-local)
-3. [Base de datos: MongoDB Atlas](#base-de-datos-mongodb-atlas)
+2. [Base de datos: MongoDB Atlas](#base-de-datos-mongodb-atlas)
+3. [Publicado en internet](#publicar-en-internet)
 4. [Probar con Postman](#probar-con-postman)
-5. [Publicar en internet](#publicar-en-internet)
-6. [Rutas de la API](#rutas-de-la-api)
-7. [Cómo funcionan las incidencias](#cómo-funcionan-las-incidencias)
-8. [Estructura del proyecto](#estructura-del-proyecto)
-9. [Seguridad](#seguridad)
-10. [Antes de enseñarlo](#antes-de-enseñarlo)
+5. [Cómo funcionan las incidencias](#cómo-funcionan-las-incidencias)
+6. [Estructura del proyecto](#estructura-del-proyecto)
+7. [Seguridad](#seguridad)
 
 ---
 
@@ -140,19 +137,6 @@ cliente ni siquiera le llega.
 con quién lo hizo y los valores anterior y nuevo. El cliente tampoco recibe
 este registro.
 
-### Decisión de diseño en MongoDB
-
-En la versión anterior con SQL, los mensajes y el historial eran dos tablas
-aparte que había que unir con `JOIN`. Aquí van **dentro del propio documento**
-del ticket, porque nunca se consultan sueltos: siempre se leen junto a su
-incidencia. Una sola lectura devuelve la conversación completa.
-
-Los códigos secuenciales (`DIF-2026-0001`) usan la colección `contadors` con
-`$inc`, que es una operación atómica. Es el equivalente en MongoDB al
-`AUTOINCREMENT` de SQL, y garantiza que dos peticiones simultáneas no reciban
-el mismo número.
-
----
 
 ## Estructura del proyecto
 
