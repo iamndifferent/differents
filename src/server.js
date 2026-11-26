@@ -134,7 +134,7 @@ async function arrancar() {
   }
 
   const servidor = app.listen(PORT, () => {
-    console.log(`\n🎩 Differents — servidor activo en el puerto ${PORT}`);
+    console.log(` Differents — servidor activo en el puerto ${PORT}`);
     console.log(`   http://localhost:${PORT}\n`);
   });
 
