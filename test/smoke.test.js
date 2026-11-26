@@ -12,8 +12,8 @@
  *       Usa la base que le indique. Úselo si tiene MongoDB instalado o si
  *       quiere probar contra un clúster de Atlas de pruebas.
  *
- * ATENCIÓN: las pruebas vacían las colecciones de la base indicada.
- * No apunte nunca a una base con datos reales.
+ *  las pruebas vacían las colecciones de la base indicada.
+ * No probar nunca a una base con datos reales.
  */
 
 let fallos = 0;
@@ -29,7 +29,7 @@ function comprobar(descripcion, condicion, detalle = '') {
   }
 }
 
-/** Usa la URI indicada por el usuario o, si no hay, un MongoDB en memoria. */
+
 async function prepararBase() {
   if (process.env.MONGODB_URI) {
     console.log(`· Usando la base indicada: ${process.env.MONGODB_URI.replace(/\/\/[^@]+@/, '//***@')}`);
