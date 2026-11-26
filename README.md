@@ -198,18 +198,3 @@ Dos detalles que conviene conocer:
   se vuelve a leer el usuario. Si le desactiva la cuenta a alguien, su token
   deja de servir al instante.
 
-### Limitación conocida
-
-La política de seguridad de contenido (CSP) incluye `'unsafe-inline'` para
-scripts, porque el HTML usa atributos `onclick`. Si quiere endurecerlo, mueva
-esos manejadores a `addEventListener` dentro de `app.js` y quite esa directiva
-de `src/server.js`.
-
----
-
-
-
-Las fotografías de los capítulos IV y V son marcadores a la espera de la
-sesión fotográfica. Para sustituirlas, deje los archivos en `public/img/` y
-cambie el bloque `placeholder-photo` correspondiente en `public/index.html`
-por una etiqueta `<img>`.
